@@ -100,12 +100,15 @@ class ImageProcessor():
             else:
                 return None
 
-            m0 = ImageProcessor.calc_gradient(a, common)
-            m1 = ImageProcessor.calc_gradient(b, common)
-            angle_rad = math.atan((m1 - m0) / (1 + m0 * m1))
-            angle_deg = (math.degrees(angle_rad))
-            angle_deg = angle_deg if angle_deg > 0 else 180 + angle_deg
-            return angle_deg
+            try:
+                m0 = ImageProcessor.calc_gradient(a, common)
+                m1 = ImageProcessor.calc_gradient(b, common)
+                angle_rad = math.atan((m1 - m0) / (1 + m0 * m1))
+                angle_deg = (math.degrees(angle_rad))
+                angle_deg = angle_deg if angle_deg > 0 else 180 + angle_deg
+                return angle_deg
+            except:
+                return None
         else:
             return None
 
@@ -193,6 +196,15 @@ class ImageProcessor():
                 return self.draw_limbs()
             case default:
                 return self.original_image
+
+class ResultProcessor():
+    def __init__(self, result):
+        self.result = result
+
+    def count_landmarks(self):
+        for index, landmark in enumerate(self.result.pose_landmarks.landmark):
+            if landmark.visibility < 0.5:
+                return index
 
 def main():
     running_image = cv.imread("../inputs/run_0.jpg")
