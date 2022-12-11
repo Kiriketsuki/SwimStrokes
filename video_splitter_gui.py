@@ -63,8 +63,8 @@ class DragDropWindow(QtWidgets.QWidget):
         self.label.setText('\n'.join(files))
 
         # Display the first frame of the first video file
-        # self.display_frame(files[0], self.label)
-
+        self.display_frame(files[0], self.label)
+        
         # Save the frames of the first video file
         self.save_frames(files[0])
 
